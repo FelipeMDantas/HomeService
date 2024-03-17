@@ -1,11 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const CategoryList = ({ category }) => {
   return (
     <div className="mx-4 md:mx-52 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
       {category.length > 0
         ? category.map((category, index) => (
-            <div
+            <Link
+              href={`/search/${category.name}`}
               key={index}
               className={`flex flex-col items-center justify-center gap-2 p-5 rounded-lg cursor-pointer 
               hover:scale-110 transition-all ease-in-out`}
@@ -18,7 +20,7 @@ const CategoryList = ({ category }) => {
                 height={35}
               />
               <h2 className="text-gray-700">{category.name}</h2>
-            </div>
+            </Link>
           ))
         : [1, 2, 3, 4, 5, 6].map((item, index) => (
             <div

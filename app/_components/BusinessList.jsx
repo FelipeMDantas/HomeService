@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const BusinessList = ({ businessList, title }) => {
-  console.log(businessList);
-
   return (
     <div className="mt-5">
       <h2 className="font-bold text-[22px]"> {title}</h2>
@@ -11,7 +10,8 @@ const BusinessList = ({ businessList, title }) => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-5">
         {businessList.length > 0
           ? businessList.map((business, index) => (
-              <div
+              <Link
+                href={`details/${business.id}`}
                 key={index}
                 className="shadow-sm rounded-lg hover:shadow-lg hover:shadow-primary cursor-pointer hover:scale-105 transition-all 
             ease-in-out"
@@ -32,7 +32,7 @@ const BusinessList = ({ businessList, title }) => {
                   <h2 className="text-gray-500 text-sm">{business.address}</h2>
                   <Button className="rounded-lg mt-3">Book Now</Button>
                 </div>
-              </div>
+              </Link>
             ))
           : [1, 2].map((item, index) => (
               <div
