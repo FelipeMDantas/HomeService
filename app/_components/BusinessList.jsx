@@ -34,7 +34,7 @@ const BusinessList = ({ businessList, title }) => {
                 </div>
               </Link>
             ))
-          : [1, 2].map((item, index) => (
+          : [1, 2, 3].map((item, index) => (
               <div
                 key={index}
                 className="w-full h-[300px] bg-slate-200 rounded-lg animate-pulse"
