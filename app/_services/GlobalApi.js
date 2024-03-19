@@ -97,9 +97,52 @@ const getBusinessById = async (id) => {
   return result;
 };
 
+const createNewBooking = async (
+  businessId,
+  date,
+  time,
+  userEmail,
+  userName
+) => {
+  const mutationQuery = gql`
+    mutation CreateBooking {
+      createBooking(
+        data: {
+          bookingStatus: Booked
+          businessList: { connect: { id: "${businessId}" } }
+          date: "${date}"
+          time: "${time}"
+          userEmail: "${userEmail}"
+          userName: "${userName}"
+        }
+      ) {
+        id
+      }
+      publishManyBookings(to: PUBLISHED) {
+        count
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, mutationQuery);
+  return result;
+};
+
+const businessBookedSlot = async () => {
+  const query = gql`
+    query BusinessBookedSlot {
+      bookings(where: { businessList: { id: "" }, date: "" }) {
+        date
+        time
+      }
+    }
+  `;
+};
+
 export default {
   getCategory,
   getAllBusinessList,
   getBusinessByCategory,
   getBusinessById,
+  createNewBooking,
 };
