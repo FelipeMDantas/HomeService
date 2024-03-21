@@ -14,16 +14,31 @@ import { Button } from "@/components/ui/button";
 import GlobalApi from "@/app/_services/GlobalApi";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import moment from "moment/moment";
 
 export const BookingSection = ({ children, business }) => {
   const [date, setDate] = useState(new Date());
   const [timeSlot, setTimeSlot] = useState([]);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [bookedSlot, setBookedSlot] = useState(null);
   const { data } = useSession();
 
   useEffect(() => {
     getTime();
   }, []);
+
+  useEffect(() => {
+    date && businessBookedSlot();
+  }, [date]);
+
+  const businessBookedSlot = () => {
+    GlobalApi.businessBookedSlot(
+      business.id,
+      moment(date).format("DD-MMM-yyyy")
+    ).then((resp) => {
+      setBookedSlot(resp.bookings);
+    });
+  };
 
   const getTime = () => {
     const timeList = [];
@@ -50,7 +65,7 @@ export const BookingSection = ({ children, business }) => {
   const saveBooking = () => {
     GlobalApi.createNewBooking(
       business.id,
-      date,
+      moment(date).format("DD-MMM-yyyy"),
       selectedTime,
       data.user.email,
       data.user.name
@@ -68,6 +83,10 @@ export const BookingSection = ({ children, business }) => {
         toast("An error has ocurred during the creation of your appointment.");
       }
     );
+  };
+
+  const isSlotBooked = (time) => {
+    if (bookedSlot) return bookedSlot.find((item) => item.time === time);
   };
 
   return (
@@ -97,6 +116,7 @@ export const BookingSection = ({ children, business }) => {
                       selectedTime === item.time && "bg-primary text-white"
                     }`}
                     onClick={() => setSelectedTime(item.time)}
+                    disabled={isSlotBooked(item.time)}
                   >
                     {item.time}
                   </Button>

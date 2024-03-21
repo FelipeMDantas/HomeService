@@ -12,13 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 const Header = () => {
   const { data } = useSession();
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   const headerStyle =
     'className="hover:scale-105 hover:text-primary cursor-pointer';
@@ -28,7 +25,9 @@ const Header = () => {
       <div className="flex items-center gap-8">
         <Image src="/logo.svg" alt="logo" width={180} height={100} />
         <div className="md:flex items-center gap-6 hidden">
-          <h2 className={headerStyle}>Home</h2>
+          <Link href="/">
+            <h2 className={headerStyle}>Home</h2>
+          </Link>
           <h2 className={headerStyle}>Services</h2>
           <h2 className={headerStyle}>About us</h2>
         </div>
@@ -48,7 +47,9 @@ const Header = () => {
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>My Bookings</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/mybookings">My Bookings</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => signOut()}>
                 Logout
               </DropdownMenuItem>
