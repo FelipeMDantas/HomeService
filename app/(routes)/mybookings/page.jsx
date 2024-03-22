@@ -21,6 +21,16 @@ const MyBookings = () => {
     });
   };
 
+  const filterData = (type) => {
+    const result = bookingHistory.filter((item) =>
+      type === "booked"
+        ? new Date(item.date) > new Date()
+        : new Date(item.date) < new Date()
+    );
+
+    return result;
+  };
+
   return (
     <div className="my-10 mx-5 md:mx-36">
       <h2 className="font-bold text-[20px] my-2">My Bookings</h2>
@@ -30,9 +40,11 @@ const MyBookings = () => {
           <TabsTrigger value="completed">Completed</TabsTrigger>
         </TabsList>
         <TabsContent value="booked">
-          <BookingHistoryList bookingHistory={bookingHistory} />
+          <BookingHistoryList bookingHistory={filterData("booked")} />
         </TabsContent>
-        <TabsContent value="completed"></TabsContent>
+        <TabsContent value="completed">
+          <BookingHistoryList bookingHistory={filterData("completed")} />
+        </TabsContent>
       </Tabs>
     </div>
   );
