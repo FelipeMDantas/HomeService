@@ -22,13 +22,15 @@ const MyBookings = () => {
   };
 
   const filterData = (type) => {
-    const result = bookingHistory.filter((item) =>
-      type === "booked"
-        ? new Date(item.date) > new Date()
-        : new Date(item.date) < new Date()
-    );
+    if (bookingHistory) {
+      const result = bookingHistory.filter((item) =>
+        type === "booked"
+          ? new Date(item.date) > new Date()
+          : new Date(item.date) < new Date()
+      );
 
-    return result;
+      return result;
+    }
   };
 
   return (
